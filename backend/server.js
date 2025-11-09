@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -9,15 +8,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/dummysite';
+// In-memory data storage (temporary - replace with MongoDB later)
+global.posts = [];
+global.postIdCounter = 1;
 
-mongoose.connect(MONGODB_URI)
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+console.log('Using in-memory storage (no MongoDB required)');
+console.log('Note: Data will be lost when server restarts');
 
 // Routes
-const postRoutes = require('./routes/posts');
+const postRoutes = require('./routes/posts-memory');
 app.use('/api/posts', postRoutes);
 
 // Root route
